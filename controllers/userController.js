@@ -213,7 +213,7 @@ exports.user_delete = [
   authenticate,
 
   (req, res, next) => {
-    if (req.user.id !== req.params.userId || !req.isAdmin) {
+    if (req.user.id !== req.params.userId && !req.isAdmin) {
       return res.sendStatus(403);
     }
     next();

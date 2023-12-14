@@ -30,7 +30,7 @@ const app = express();
 // Rate limiting
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 20,
+  max: 30,
 });
 app.use(limiter);
 
@@ -41,6 +41,7 @@ app.use(compression());
 // MongoDB connection
 mongoose.set('strictQuery', false);
 const mongoDB = process.env.MONGODB_URI;
+mongoose.connect(mongoDB);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
 

@@ -111,8 +111,8 @@ exports.post_post = [
       res.json({ errors: result.array() });
       return;
     } else {
-      await post.save();
-      await post.populate('user').execPopulate();
+      await post.save()
+      await post.populate('user');
       res.status(200).json(post);
     }
   })
@@ -166,7 +166,7 @@ exports.post_put = [
       return;
     } else {
       await Post.findByIdAndUpdate(req.body.postId, post, {});
-      await post.populate('user').execPopulate();
+      await post.populate('user');
       res.status(200).json(post);
     }
   })
@@ -180,7 +180,7 @@ exports.post_delete = [
       .populate('user')
       .exec();
 
-    if (req.user.id !== post.user.id || !req.isAdmin) {
+    if (req.user.id !== post.user.id && !req.isAdmin) {
       return res.sendStatus(403);
     }
     next();

@@ -47,7 +47,7 @@ exports.comment_post = [
       return;
     } else {
       await comment.save();
-      await comment.populate('user').execPopulate();
+      await comment.populate('user');
       res.status(200).json(comment);
     }
   })
@@ -57,13 +57,14 @@ exports.comment_put = [
   authenticate,
 
   asyncHandler(async (req, res, next) => {
-    const comment = await Post.findById(req.body.postId)
+    const comment = await Comment.findById(req.body.commentId)
       .populate('user')
       .exec();
 
     if (req.user.id !== comment.user.id) {
       return res.sendStatus(403);
     }
+
     next();
   }),
 
@@ -92,7 +93,7 @@ exports.comment_put = [
       return;
     } else {
       await Comment.findByIdAndUpdate(req.body.commentId, comment, {});
-      await comment.populate('user').execPopulate();
+      await comment.populate('user');
       res.status(200).json(comment);
     }
   })
@@ -102,18 +103,15 @@ exports.comment_delete = [
   authenticate,
 
   asyncHandler(async (req, res, next) => {
-    const comment = await Comment.findById(req.body.commentId)
+    const comment = await Comment.findById(req.params.commentId)
       .populate('user')
       .exec();
 
-    if (req.user.id !== comment.user.id || !req.isAdmin) {
+    if (req.user.id !== comment.user.id && !req.isAdmin) {
       return res.sendStatus(403);
     }
-    next();
-  }),
-
-  asyncHandler(async (req, res, next) => {
-    await Comment.findByIdAndDelete(req.body.commentId);
+    
+    await Comment.findByIdAndDelete(req.params.commentId);
     res.sendStatus(200);
   })
 ];
