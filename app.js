@@ -54,7 +54,7 @@ const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.JWT_SECRET,
   issuer: 'https://blog-restful-api.adaptable.app',
-  audience: 'https://blog-client-b2sp5ihen-laythalqadhis-projects.vercel.app/'
+  audience: 'https://blog-client-beryl.vercel.app/'
 };
 
 passport.use(new JwtStrategy(jwtOptions, async function(jwt_payload, done) {
