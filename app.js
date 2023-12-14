@@ -52,9 +52,7 @@ app.set('view engine', 'pug');
 // JWT strategy configuration
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET,
-  issuer: 'https://blog-restful-api.adaptable.app',
-  audience: 'https://blog-client-beryl.vercel.app/'
+  secretOrKey: process.env.JWT_SECRET
 };
 
 passport.use(new JwtStrategy(jwtOptions, async function(jwt_payload, done) {
